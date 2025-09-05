@@ -1,0 +1,19 @@
+program KAFSServidorDataSnap_CMD;
+
+{$APPTYPE CONSOLE}
+
+uses
+  System.SysUtils,
+  uServerMethods in 'uServerMethods.pas',
+  uServerConst in 'uServerConst.pas',
+  uServerContainer in 'uServerContainer.pas' {ServerContainer: TDataModule};
+
+begin
+  try
+    RunDSServer;
+  except
+    on E: Exception do
+      Writeln(E.ClassName, ': ', E.Message);
+  end
+end.
+
