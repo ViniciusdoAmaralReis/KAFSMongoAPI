@@ -186,9 +186,9 @@ begin
     Writeln('   - Erro: Não é possível a alteração com o servidor online')
   else
   begin
-    Write('   - Nova porta >');
+    var _porta: Integer;
 
-    var _porta := 0;
+    Write('   - Nova porta >');
     Readln(_porta);
 
     if VerificarPorta(_porta) > 0 then
