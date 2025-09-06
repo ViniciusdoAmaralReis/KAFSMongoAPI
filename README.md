@@ -232,10 +232,9 @@ end;
 
 # 🏛️ Status de compatibilidade
 
-| Sistema operacional | Status FireDAC MongoDB | Observações |
-|---------------------|------------------------|-------------|
-| **Windows** | ✅ **Totalmente Compatível** | Funcionamento completo com todos os recursos |
-| **Linux** | ✅ **Totalmente Compatível** | Funcionamento completo com todos os recursos |
+| Windows | Linux |
+|---------|-------|
+| ✅ | ✅ |
 
 | IDE | Versão mínima | Observações |
 |---------------------|------------------------|-------------|
