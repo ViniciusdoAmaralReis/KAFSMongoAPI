@@ -1,6 +1,21 @@
-# 📦 KAFSServidorDataSnap
+<div align="center">
+<img width="223" height="200" alt="Logo" src="https://github.com/user-attachments/assets/3a33800c-24e5-47bd-b086-6851796932e6" /></div><p>
 
-Servidor DataSnap Delphi/Console com integração MongoDB Atlas, interface administrativa e suporte a operações CRUD via API REST.
+# <div align="center"><strong>KAFSServidorDataSnap</strong></div> 
+
+<div align="center">
+Servidor DataSnap integrado com MongoDB Atlas para persistência de dados.<br>
+Oferece endpoints RESTful para operações básicas de banco de dados.
+</p>
+
+[![Delphi](https://img.shields.io/badge/Delphi-12.3+-B22222?logo=delphi)](https://www.embarcadero.com/products/delphi)
+[![DataSnap](https://img.shields.io/badge/DataSnap-Server-007ACC)]([https://www.embarcadero.com/products/datasnap](https://docwiki.embarcadero.com/RADStudio/Athens/en/Developing_DataSnap_Applications))
+[![FireDAC](https://img.shields.io/badge/FireDAC-Connector-FF6600)]([https://www.embarcadero.com/products/firedac](https://docwiki.embarcadero.com/RADStudio/Athens/en/FireDAC))
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb)](https://www.mongodb.com/atlas)
+[![Multiplatform](https://img.shields.io/badge/Multiplatform-Win/Linux-8250DF)]([https://www.embarcadero.com/products/delphi/cross-platform](https://docwiki.embarcadero.com/RADStudio/Athens/en/Developing_Multi-Device_Applications))
+[![License](https://img.shields.io/badge/License-GPLv3-blue)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-0.1.0-gren)](https://github.com/seu-usuario/seu-repo/releases)
+</div><br><br>
 
 ## ⚠️ Dependências externas
 
@@ -11,22 +26,23 @@ Este projeto utiliza as seguintes unidades externas que devem ser adicionadas ao
 
 *Componente utilizado para os exemplos de consumo no cliente. Não é necessário para compilar este projeto servidor.
 - *🧩 [TKAFSConexaoDataSnap](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoDataSnap)
+<div></div><br><br>
+
 
 ## 💡 Consumo - Inserir dados
 ```pascal
 function TServerMethods.InserirDadosMongoDB(const _banco, _colecao: String; const _dados: TJSONObject): TJSONObject;
 ```
+<div></div><br>
 
 - Exemplo de resposta com sucesso:
 ```json
 {"sucesso": true}
 ```
-
 - Exemplo de resposta com erro:
 ```json
 {"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
-
 - Exemplo de consumo:
 ```pascal
 var _conexao := TKAFSConexaoDataSnap.Create(nil);
@@ -57,22 +73,23 @@ finally
   FreeAndNil(_conexao);
 end;
 ```
+<div></div><br><br>
+
 
 ## 💡 Consumo - Editar dados
 ```pascal
 function TServerMethods.EditarDadosMongoDB(const _banco, _colecao: String; const _filtros, _atualizacoes: TJSONObject): TJSONObject;
 ```
+<div></div><br>
 
 - Exemplo de resposta com sucesso:
 ```json
 {"sucesso": true}
 ```
-
 - Exemplo de resposta com erro:
 ```json
 {"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
-
 - Exemplo de consumo:
 ```pascal
 var _conexao := TKAFSConexaoDataSnap.Create(nil);
@@ -110,11 +127,14 @@ finally
   FreeAndNil(_conexao);
 end;
 ```
+<div></div><br><br>
+
 
 ## 💡 Consumo - Buscar dados
 ```pascal
 function TServerMethods.BuscarDadosMongoDB(const _banco, _colecao: string; const _filtros: TJSONObject): TJSONObject;
 ```
+<div></div><br>
 
 - Exemplo de resposta com sucesso e com resultados:
 ```json
@@ -137,7 +157,6 @@ function TServerMethods.BuscarDadosMongoDB(const _banco, _colecao: string; const
   ]
 }
 ```
-
 - Exemplo de resposta com sucesso e sem resultado:
 ```json
 {
@@ -146,12 +165,10 @@ function TServerMethods.BuscarDadosMongoDB(const _banco, _colecao: string; const
   "resultados": []
 }
 ```
-
 - Exemplo de resposta com erro:
 ```json
 {"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
-
 - Exemplo de consumo:
 ```pascal
 var _conexao := TKAFSConexaoDataSnap.Create(nil);
@@ -185,22 +202,23 @@ finally
   FreeAndNil(_conexao);
 end;
 ```
+<div></div><br><br>
+
 
 ## 💡 Consumo - Excluir dados
 ```pascal
 function TServerMethods.ExcluirDadosMongoDB(const _banco, _colecao: String; const _filtros: TJSONObject): TJSONObject;
 ```
+<div></div><br>
 
 - Exemplo de resposta com sucesso:
 ```json
 {"sucesso": true}
 ```
-
 - Exemplo de resposta com erro:
 ```json
 {"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
-
 - Exemplo de consumo:
 ```pascal
 var _conexao := TKAFSConexaoDataSnap.Create(nil);
@@ -229,17 +247,7 @@ finally
   FreeAndNil(_conexao);
 end;
 ```
-
-# 🏛️ Status de compatibilidade
-
-| Sistema operacional | Status FireDAC MongoDB | Observações |
-|---------------------|------------------------|-------------|
-| **Windows** | ✅ **Totalmente Compatível** | Funcionamento completo com todos os recursos |
-| **Linux** | ❌ **Não Suportado** | Limitação técnica do driver FireDAC |
-
-| IDE | Versão mínima | Observações |
-|---------------------|------------------------|-------------|
-| **Delphi** | ✅ **12.3** | Início do suporte nativo a DNS SRV |
+<div></div><br><br>
 
 ---
 **Nota**: Requer configuração prévia do MongoDB Atlas e das credenciais apropriadas para funcionamento completo. Certifique-se de ter todas as unidades externas baixadas e configuradas corretamente no projeto.
