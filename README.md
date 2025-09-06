@@ -1,10 +1,21 @@
-<img width="223" height="200" alt="image" src="https://github.com/user-attachments/assets/3a33800c-24e5-47bd-b086-6851796932e6" />
+<div align="center">
+<img width="223" height="200" alt="Logo" src="https://github.com/user-attachments/assets/3a33800c-24e5-47bd-b086-6851796932e6" /></div><br>
 
-# KAFSServidorDataSnap
+<div align="center">
+<strong>KAFSServidorDataSnap</strong> é um servidor DataSnap integrado com MongoDB Atlas para persistência de dados.<br>
+Oferece endpoints RESTful para operações básicas de banco de dados.
+</p>
 
-Servidor DataSnap integrado com MongoDB Atlas para persistência de dados. Oferece endpoints RESTful para operações básicas de banco de dados.
+[![Delphi](https://img.shields.io/badge/Delphi-12.3+-B22222?logo=delphi)](https://www.embarcadero.com/products/delphi)
+[![DataSnap](https://img.shields.io/badge/DataSnap-Server-007ACC)]([https://www.embarcadero.com/products/datasnap](https://docwiki.embarcadero.com/RADStudio/Athens/en/Developing_DataSnap_Applications))
+[![FireDAC](https://img.shields.io/badge/FireDAC-Connector-FF6600)]([https://www.embarcadero.com/products/firedac](https://docwiki.embarcadero.com/RADStudio/Athens/en/FireDAC))
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb)](https://www.mongodb.com/atlas)
+[![Multiplatform](https://img.shields.io/badge/Multiplatform-Win/Linux-8250DF)]([https://www.embarcadero.com/products/delphi/cross-platform](https://docwiki.embarcadero.com/RADStudio/Athens/en/Developing_Multi-Device_Applications))
+[![License](https://img.shields.io/badge/License-GPLv3-blue)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-0.1.0-gren)](https://github.com/seu-usuario/seu-repo/releases)
+</div><br>
 
-## ⚠️ Dependências externas
+# ⚠️ Dependências externas
 
 Este projeto utiliza as seguintes unidades externas que devem ser adicionadas ao projeto:
 - 🧩 [TKAFSConexaoMongoDBAtlas](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoMongoDBAtlas) 
@@ -14,7 +25,7 @@ Este projeto utiliza as seguintes unidades externas que devem ser adicionadas ao
 *Componente utilizado para os exemplos de consumo no cliente. Não é necessário para compilar este projeto servidor.
 - *🧩 [TKAFSConexaoDataSnap](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoDataSnap)
 
-## 💡 Consumo - Inserir dados
+# 💡 Consumo - Inserir dados
 ```pascal
 function TServerMethods.InserirDadosMongoDB(const _banco, _colecao: String; const _dados: TJSONObject): TJSONObject;
 ```
@@ -60,7 +71,7 @@ finally
 end;
 ```
 
-## 💡 Consumo - Editar dados
+# 💡 Consumo - Editar dados
 ```pascal
 function TServerMethods.EditarDadosMongoDB(const _banco, _colecao: String; const _filtros, _atualizacoes: TJSONObject): TJSONObject;
 ```
@@ -113,7 +124,7 @@ finally
 end;
 ```
 
-## 💡 Consumo - Buscar dados
+# 💡 Consumo - Buscar dados
 ```pascal
 function TServerMethods.BuscarDadosMongoDB(const _banco, _colecao: string; const _filtros: TJSONObject): TJSONObject;
 ```
@@ -188,7 +199,7 @@ finally
 end;
 ```
 
-## 💡 Consumo - Excluir dados
+# 💡 Consumo - Excluir dados
 ```pascal
 function TServerMethods.ExcluirDadosMongoDB(const _banco, _colecao: String; const _filtros: TJSONObject): TJSONObject;
 ```
