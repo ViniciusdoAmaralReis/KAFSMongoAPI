@@ -26,22 +26,23 @@ Este projeto utiliza as seguintes unidades externas que devem ser adicionadas ao
 
 *Componente utilizado para os exemplos de consumo no cliente. Não é necessário para compilar este projeto servidor.
 - *🧩 [TKAFSConexaoDataSnap](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoDataSnap)
+<div></div><br><br>
+
 
 ## 💡 Consumo - Inserir dados
 ```pascal
 function TServerMethods.InserirDadosMongoDB(const _banco, _colecao: String; const _dados: TJSONObject): TJSONObject;
 ```
+<div></div><br>
 
 - Exemplo de resposta com sucesso:
 ```json
 {"sucesso": true}
 ```
-
 - Exemplo de resposta com erro:
 ```json
 {"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
-
 - Exemplo de consumo:
 ```pascal
 var _conexao := TKAFSConexaoDataSnap.Create(nil);
@@ -72,22 +73,23 @@ finally
   FreeAndNil(_conexao);
 end;
 ```
+<div></div><br><br>
+
 
 ## 💡 Consumo - Editar dados
 ```pascal
 function TServerMethods.EditarDadosMongoDB(const _banco, _colecao: String; const _filtros, _atualizacoes: TJSONObject): TJSONObject;
 ```
+<div></div><br>
 
 - Exemplo de resposta com sucesso:
 ```json
 {"sucesso": true}
 ```
-
 - Exemplo de resposta com erro:
 ```json
 {"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
-
 - Exemplo de consumo:
 ```pascal
 var _conexao := TKAFSConexaoDataSnap.Create(nil);
@@ -125,11 +127,14 @@ finally
   FreeAndNil(_conexao);
 end;
 ```
+<div></div><br><br>
+
 
 ## 💡 Consumo - Buscar dados
 ```pascal
 function TServerMethods.BuscarDadosMongoDB(const _banco, _colecao: string; const _filtros: TJSONObject): TJSONObject;
 ```
+<div></div><br>
 
 - Exemplo de resposta com sucesso e com resultados:
 ```json
@@ -152,7 +157,6 @@ function TServerMethods.BuscarDadosMongoDB(const _banco, _colecao: string; const
   ]
 }
 ```
-
 - Exemplo de resposta com sucesso e sem resultado:
 ```json
 {
@@ -161,12 +165,10 @@ function TServerMethods.BuscarDadosMongoDB(const _banco, _colecao: string; const
   "resultados": []
 }
 ```
-
 - Exemplo de resposta com erro:
 ```json
 {"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
-
 - Exemplo de consumo:
 ```pascal
 var _conexao := TKAFSConexaoDataSnap.Create(nil);
@@ -200,22 +202,23 @@ finally
   FreeAndNil(_conexao);
 end;
 ```
+<div></div><br><br>
+
 
 ## 💡 Consumo - Excluir dados
 ```pascal
 function TServerMethods.ExcluirDadosMongoDB(const _banco, _colecao: String; const _filtros: TJSONObject): TJSONObject;
 ```
+<div></div><br>
 
 - Exemplo de resposta com sucesso:
 ```json
 {"sucesso": true}
 ```
-
 - Exemplo de resposta com erro:
 ```json
 {"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
-
 - Exemplo de consumo:
 ```pascal
 var _conexao := TKAFSConexaoDataSnap.Create(nil);
@@ -244,5 +247,7 @@ finally
   FreeAndNil(_conexao);
 end;
 ```
+<div></div><br><br>
+
 ---
 **Nota**: Requer configuração prévia do MongoDB Atlas e das credenciais apropriadas para funcionamento completo. Certifique-se de ter todas as unidades externas baixadas e configuradas corretamente no projeto.
