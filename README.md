@@ -1,6 +1,6 @@
 # 📦 KAFSServidorDataSnap
 
-Servidor DataSnap Delphi/Console com integração MongoDB Atlas, suporte a operações CRUD via API REST.
+Servidor Delphi/Terminal DataSnap com integração MongoDB Atlas, suporte a operações CRUD via API REST.
 
 ## ⚠️ Dependências externas
 
@@ -235,7 +235,7 @@ end;
 | Sistema operacional | Status FireDAC MongoDB | Observações |
 |---------------------|------------------------|-------------|
 | **Windows** | ✅ **Totalmente Compatível** | Funcionamento completo com todos os recursos |
-| **Linux** | ❌ **Não Suportado** | Limitação técnica do driver FireDAC |
+| **Linux** | ✅ **Totalmente Compatível** | Funcionamento completo com todos os recursos |
 
 | IDE | Versão mínima | Observações |
 |---------------------|------------------------|-------------|
