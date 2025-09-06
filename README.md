@@ -1,6 +1,6 @@
 <img width="223" height="200" alt="image" src="https://github.com/user-attachments/assets/3a33800c-24e5-47bd-b086-6851796932e6" />
 
-# 📦 KAFSServidorDataSnap
+# KAFSServidorDataSnap
 
 Servidor DataSnap integrado com MongoDB Atlas para persistência de dados. Oferece endpoints RESTful para operações básicas de banco de dados.
 
