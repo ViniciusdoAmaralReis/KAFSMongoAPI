@@ -16,9 +16,9 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-### Additional Terms for TKAFSConexaoMongoDBAtlas:
+### Additional Terms for KAFSServidorDataSnap:
 
-The copyright holder of TKAFSConexaoMongoDBAtlas offers commercial licensing
+The copyright holder of KAFSServidorDataSnap offers commercial licensing
 for organizations that wish to use this software in proprietary applications
 without releasing their source code under the GPL v3.
 
