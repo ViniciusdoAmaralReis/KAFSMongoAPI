@@ -1,8 +1,10 @@
 <div align="center">
-<img width="223" height="200" alt="Logo" src="https://github.com/user-attachments/assets/3a33800c-24e5-47bd-b086-6851796932e6" /></div><br>
+<img width="223" height="200" alt="Logo" src="https://github.com/user-attachments/assets/3a33800c-24e5-47bd-b086-6851796932e6" /></div><p>
+
+# <div align="center"><strong>KAFSServidorDataSnap</strong></div> 
 
 <div align="center">
-<strong>KAFSServidorDataSnap</strong> é integrado com MongoDB Atlas para persistência de dados.<br>
+Servidor DataSnap integrado com MongoDB Atlas para persistência de dados.<br>
 Oferece endpoints RESTful para operações básicas de banco de dados.
 </p>
 
@@ -13,9 +15,9 @@ Oferece endpoints RESTful para operações básicas de banco de dados.
 [![Multiplatform](https://img.shields.io/badge/Multiplatform-Win/Linux-8250DF)]([https://www.embarcadero.com/products/delphi/cross-platform](https://docwiki.embarcadero.com/RADStudio/Athens/en/Developing_Multi-Device_Applications))
 [![License](https://img.shields.io/badge/License-GPLv3-blue)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-0.1.0-gren)](https://github.com/seu-usuario/seu-repo/releases)
-</div><br>
+</div><br><br>
 
-# ⚠️ Dependências externas
+## ⚠️ Dependências externas
 
 Este projeto utiliza as seguintes unidades externas que devem ser adicionadas ao projeto:
 - 🧩 [TKAFSConexaoMongoDBAtlas](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoMongoDBAtlas) 
@@ -25,7 +27,7 @@ Este projeto utiliza as seguintes unidades externas que devem ser adicionadas ao
 *Componente utilizado para os exemplos de consumo no cliente. Não é necessário para compilar este projeto servidor.
 - *🧩 [TKAFSConexaoDataSnap](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoDataSnap)
 
-# 💡 Consumo - Inserir dados
+## 💡 Consumo - Inserir dados
 ```pascal
 function TServerMethods.InserirDadosMongoDB(const _banco, _colecao: String; const _dados: TJSONObject): TJSONObject;
 ```
@@ -71,7 +73,7 @@ finally
 end;
 ```
 
-# 💡 Consumo - Editar dados
+## 💡 Consumo - Editar dados
 ```pascal
 function TServerMethods.EditarDadosMongoDB(const _banco, _colecao: String; const _filtros, _atualizacoes: TJSONObject): TJSONObject;
 ```
@@ -124,7 +126,7 @@ finally
 end;
 ```
 
-# 💡 Consumo - Buscar dados
+## 💡 Consumo - Buscar dados
 ```pascal
 function TServerMethods.BuscarDadosMongoDB(const _banco, _colecao: string; const _filtros: TJSONObject): TJSONObject;
 ```
@@ -199,7 +201,7 @@ finally
 end;
 ```
 
-# 💡 Consumo - Excluir dados
+## 💡 Consumo - Excluir dados
 ```pascal
 function TServerMethods.ExcluirDadosMongoDB(const _banco, _colecao: String; const _filtros: TJSONObject): TJSONObject;
 ```
@@ -242,16 +244,5 @@ finally
   FreeAndNil(_conexao);
 end;
 ```
-
-# 🏛️ Status de compatibilidade
-
-| Windows | Linux |
-|---------|-------|
-| ✅ | ✅ |
-
-| IDE | Versão mínima | Observações |
-|---------------------|------------------------|-------------|
-| **Delphi** | ✅ **12.3** | Início do suporte nativo a DNS SRV |
-
 ---
 **Nota**: Requer configuração prévia do MongoDB Atlas e das credenciais apropriadas para funcionamento completo. Certifique-se de ter todas as unidades externas baixadas e configuradas corretamente no projeto.
