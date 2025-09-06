@@ -1,6 +1,6 @@
 # 📦 KAFSServidorDataSnap
 
-Servidor DataSnap Delphi/Console com integração MongoDB Atlas, interface administrativa e suporte a operações CRUD via API REST.
+Servidor DataSnap Delphi/Console com integração MongoDB Atlas, suporte a operações CRUD via API REST.
 
 ## ⚠️ Dependências externas
 
