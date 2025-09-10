@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-# Instala dependências para compilar as bibliotecas MongoDB
+# Instala dependências básicas
 RUN apt-get update && \
     apt-get install -y \
     libc6 \
@@ -14,7 +14,7 @@ RUN apt-get update && \
     libsasl2-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Baixa e compila o mongo-c-driver from source com configurações corretas
+# Baixa e compila o mongo-c-driver from source
 RUN wget https://github.com/mongodb/mongo-c-driver/releases/download/1.24.4/mongo-c-driver-1.24.4.tar.gz && \
     tar -xzf mongo-c-driver-1.24.4.tar.gz && \
     cd mongo-c-driver-1.24.4 && \
@@ -27,11 +27,6 @@ RUN wget https://github.com/mongodb/mongo-c-driver/releases/download/1.24.4/mong
     cd / && \
     rm -rf mongo-c-driver-1.24.4*
 
-# Verifica se as bibliotecas foram instaladas corretamente
-RUN echo "Bibliotecas instaladas:" && \
-    ldconfig -p | grep -E "(mongoc|bson)" && \
-    ls -la /usr/local/lib/libmongoc* /usr/local/lib/libbson*
-
 # Crie um diretório para sua aplicação
 WORKDIR /app
 
@@ -41,7 +36,7 @@ COPY KAFSServidorDataSnap .
 # Torne o binário executável
 RUN chmod +x KAFSServidorDataSnap
 
-# Crie o arquivo INI codificado com as credenciais
+# Crie o arquivo INI EXATAMENTE como fornecido
 RUN echo "[bW9uZ29kYg$$]" > cache.ini && \
     echo "bm9tZQ$$=dmluaWNpdXNkb2FtYXJhbHJlaXM$" >> cache.ini && \
     echo "c2VuaGE$=WUNubGM0T1dxT0lGRE9kTQ$$" >> cache.ini && \
