@@ -1,30 +1,35 @@
-# Use Ubuntu como base
 FROM ubuntu:22.04
 
-# Instala as dependências necessárias
+# Instala dependências para compilar as bibliotecas MongoDB
 RUN apt-get update && \
     apt-get install -y \
     libc6 \
     libgcc-s1 \
     libstdc++6 \
     wget \
-    gnupg \
-    curl \
-    libssl3 \
-    libsasl2-2 \
-    && wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | gpg --dearmor -o /usr/share/keyrings/mongodb-server-6.0.gpg \
-    && echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list \
-    && apt-get update \
-    && apt-get install -y \
-    libmongoc-1.0-0 \
-    libbson-1.0-0 \
-    && ldconfig \
+    build-essential \
+    cmake \
+    pkg-config \
+    libssl-dev \
+    libsasl2-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Verifica se as bibliotecas estão instaladas
-RUN echo "Verificando bibliotecas MongoDB:" && \
-    ldconfig -p | grep -E "(mongoc|bson)" && \
-    find /usr -name "*mongoc*" -type f | head -10
+# Baixa e compila o mongo-c-driver from source
+RUN wget https://github.com/mongodb/mongo-c-driver/releases/download/1.24.4/mongo-c-driver-1.24.4.tar.gz && \
+    tar -xzf mongo-c-driver-1.24.4.tar.gz && \
+    cd mongo-c-driver-1.24.4 && \
+    mkdir cmake-build && \
+    cd cmake-build && \
+    cmake -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DENABLE_SSL=OPENSSL -DENABLE_SASL=CRAMMD5 .. && \
+    make && \
+    make install && \
+    ldconfig && \
+    cd / && \
+    rm -rf mongo-c-driver-1.24.4*
+
+# Verifica se as bibliotecas foram instaladas corretamente
+RUN ldconfig -p | grep mongoc && \
+    find /usr -name "*mongoc*" -type f
 
 # Crie um diretório para sua aplicação
 WORKDIR /app
