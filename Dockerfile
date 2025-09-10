@@ -1,17 +1,24 @@
+# Use uma imagem base minimalista do Alpine Linux
 FROM alpine:3.18
 
-# Instala dependências adicionais que programas Delphi podem precisar
+# Instala as dependências necessárias para o binário Delphi Linux
 RUN apk add --no-cache \
     libc6-compat \
-    openssl \          # Para funcionalidades SSL
-    libuuid \          # Para identificadores únicos
-    zlib               # Para compressão
+    openssl \
+    util-linux \    # Fornece libuuid
+    zlib
 
+# Crie um diretório para sua aplicação
 WORKDIR /app
+
+# Copie APENAS o binário Linux para o container
 COPY KAFSServidorDataSnap .
+
+# Torne o binário executável
 RUN chmod +x KAFSServidorDataSnap
 
-# Verifique qual porta seu servidor realmente usa!
-EXPOSE 8080
+# Exponha a porta que seu servidor usa (ajuste se necessário)
+EXPOSE 8000
 
+# Comando para executar sua aplicação
 CMD ["./KAFSServidorDataSnap"]
