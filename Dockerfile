@@ -1,11 +1,6 @@
 FROM ubuntu:22.04
 
-# Configura DNS resolvers confiáveis primeiro
-RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
-    echo "nameserver 8.8.4.4" >> /etc/resolv.conf && \
-    echo "nameserver 1.1.1.1" >> /etc/resolv.conf
-
-# Instala dependências básicas + ferramentas de rede
+# Instala dependências básicas
 RUN apt-get update && \
     apt-get install -y \
     libc6 \
@@ -17,8 +12,6 @@ RUN apt-get update && \
     pkg-config \
     libssl-dev \
     libsasl2-dev \
-    dnsutils \  # Para ferramentas DNS (nslookup, dig)
-    iputils-ping \  # Para teste de conectividade
     && rm -rf /var/lib/apt/lists/*
 
 # Baixa e compila o mongo-c-driver from source
@@ -34,10 +27,6 @@ RUN wget https://github.com/mongodb/mongo-c-driver/releases/download/1.24.4/mong
     cd / && \
     rm -rf mongo-c-driver-1.24.4*
 
-# Testa a resolução DNS do MongoDB Atlas
-RUN nslookup servidor0.ajhbbrx.mongodb.net && \
-    dig SRV _mongodb._tcp.servidor0.ajhbbrx.mongodb.net
-
 # Crie um diretório para sua aplicação
 WORKDIR /app
 
@@ -47,7 +36,7 @@ COPY KAFSServidorDataSnap .
 # Torne o binário executável
 RUN chmod +x KAFSServidorDataSnap
 
-# Crie o arquivo INI exatamente como fornecido
+# Crie o arquivo INI EXATAMENTE como fornecido
 RUN echo "[bW9uZ29kYg$$]" > cache.ini && \
     echo "bm9tZQ$$=dmluaWNpdXNkb2FtYXJhbHJlaXM$" >> cache.ini && \
     echo "c2VuaGE$=WUNubGM0T1dxT0lGRE9kTQ$$" >> cache.ini && \
