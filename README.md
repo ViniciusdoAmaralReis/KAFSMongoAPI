@@ -29,21 +29,11 @@ Este projeto utiliza as seguintes unidades externas que devem ser adicionadas ao
 <div></div><br><br>
 
 
-## 💡 Consumo - Inserir dados
+## ⚡ Inserir dados
 ```pascal
 function TServerMethods.InserirDadosMongoDB(const _banco, _colecao: String; const _dados: TJSONObject): TJSONObject;
 ```
-<div></div><br>
-
-- Exemplo de resposta com sucesso:
-```json
-{"sucesso": true}
-```
-- Exemplo de resposta com erro:
-```json
-{"sucesso": false, "erro": "Mensagem do erro aqui"}
-```
-- Exemplo de consumo:
+🏛️ Exemplo de consumo:
 ```pascal
 var _conexao := TKAFSConexaoDataSnap.Create(nil);
 var _metodo := TServerMethodsClient.Create(_conexao.DBXConnection);
@@ -73,24 +63,21 @@ finally
   FreeAndNil(_conexao);
 end;
 ```
-<div></div><br><br>
-
-
-## 💡 Consumo - Editar dados
-```pascal
-function TServerMethods.EditarDadosMongoDB(const _banco, _colecao: String; const _filtros, _atualizacoes: TJSONObject): TJSONObject;
-```
-<div></div><br>
-
-- Exemplo de resposta com sucesso:
+📜 Respostas:
 ```json
 {"sucesso": true}
 ```
-- Exemplo de resposta com erro:
 ```json
 {"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
-- Exemplo de consumo:
+<div></div><br><br>
+
+
+## ⚡ Editar dados
+```pascal
+function TServerMethods.EditarDadosMongoDB(const _banco, _colecao: String; const _filtros, _atualizacoes: TJSONObject): TJSONObject;
+```
+🏛️ Exemplo de consumo:
 ```pascal
 var _conexao := TKAFSConexaoDataSnap.Create(nil);
 var _metodo := TServerMethodsClient.Create(_conexao.DBXConnection);
@@ -127,49 +114,21 @@ finally
   FreeAndNil(_conexao);
 end;
 ```
-<div></div><br><br>
-
-
-## 💡 Consumo - Buscar dados
-```pascal
-function TServerMethods.BuscarDadosMongoDB(const _banco, _colecao: string; const _filtros: TJSONObject): TJSONObject;
-```
-<div></div><br>
-
-- Exemplo de resposta com sucesso e com resultados:
+📜 Respostas:
 ```json
-{
-  "sucesso": true,
-  "quantidade": 2,
-  "resultados": [
-    {
-      "_id": "65a1b2c3d4e5f67890123456",
-      "nome": "João",
-      "email": "joao@email.com",
-      "nivel": 1
-    },
-    {
-      "_id": "65a1b2c3d4e5f67890123457",
-      "nome": "Maria",
-      "email": "maria@email.com",
-      "nivel": 2
-    }
-  ]
-}
+{"sucesso": true}
 ```
-- Exemplo de resposta com sucesso e sem resultado:
-```json
-{
-  "sucesso": true,
-  "quantidade": 0,
-  "resultados": []
-}
-```
-- Exemplo de resposta com erro:
 ```json
 {"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
-- Exemplo de consumo:
+<div></div><br><br>
+
+
+## ⚡ Buscar dados
+```pascal
+function TServerMethods.BuscarDadosMongoDB(const _banco, _colecao: string; const _filtros: TJSONObject): TJSONObject;
+```
+🏛️ Exemplo de consumo:
 ```pascal
 var _conexao := TKAFSConexaoDataSnap.Create(nil);
 var _metodo := TServerMethodsClient.Create(_conexao.DBXConnection);
@@ -202,24 +161,45 @@ finally
   FreeAndNil(_conexao);
 end;
 ```
-<div></div><br><br>
-
-
-## 💡 Consumo - Excluir dados
-```pascal
-function TServerMethods.ExcluirDadosMongoDB(const _banco, _colecao: String; const _filtros: TJSONObject): TJSONObject;
-```
-<div></div><br>
-
-- Exemplo de resposta com sucesso:
+📜 Respostas:
 ```json
-{"sucesso": true}
+{
+  "sucesso": true,
+  "quantidade": 2,
+  "resultados": [
+    {
+      "_id": "65a1b2c3d4e5f67890123456",
+      "nome": "João",
+      "email": "joao@email.com",
+      "nivel": 1
+    },
+    {
+      "_id": "65a1b2c3d4e5f67890123457",
+      "nome": "Maria",
+      "email": "maria@email.com",
+      "nivel": 2
+    }
+  ]
+}
 ```
-- Exemplo de resposta com erro:
+```json
+{
+  "sucesso": true,
+  "quantidade": 0,
+  "resultados": []
+}
+```
 ```json
 {"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
-- Exemplo de consumo:
+<div></div><br><br>
+
+
+## ⚡ Excluir dados
+```pascal
+function TServerMethods.ExcluirDadosMongoDB(const _banco, _colecao: String; const _filtros: TJSONObject): TJSONObject;
+```
+🏛️ Exemplo de consumo:
 ```pascal
 var _conexao := TKAFSConexaoDataSnap.Create(nil);
 var _metodo := TServerMethodsClient.Create(_conexao.DBXConnection);
@@ -246,6 +226,13 @@ finally
   FreeAndNil(_metodo);
   FreeAndNil(_conexao);
 end;
+```
+📜 Respostas:
+```json
+{"sucesso": true}
+```
+```json
+{"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
 <div></div><br><br>
 
