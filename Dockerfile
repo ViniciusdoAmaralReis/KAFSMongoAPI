@@ -14,13 +14,13 @@ RUN apt-get update && \
     libsasl2-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Baixa e compila o mongo-c-driver from source
+# Baixa e compila o mongo-c-driver from source com configurações corretas
 RUN wget https://github.com/mongodb/mongo-c-driver/releases/download/1.24.4/mongo-c-driver-1.24.4.tar.gz && \
     tar -xzf mongo-c-driver-1.24.4.tar.gz && \
     cd mongo-c-driver-1.24.4 && \
     mkdir cmake-build && \
     cd cmake-build && \
-    cmake -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DENABLE_SSL=OPENSSL -DENABLE_SASL=CRAMMD5 .. && \
+    cmake -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF -DENABLE_SSL=OPENSSL -DENABLE_SASL=CYRUS .. && \
     make && \
     make install && \
     ldconfig && \
@@ -28,8 +28,9 @@ RUN wget https://github.com/mongodb/mongo-c-driver/releases/download/1.24.4/mong
     rm -rf mongo-c-driver-1.24.4*
 
 # Verifica se as bibliotecas foram instaladas corretamente
-RUN ldconfig -p | grep mongoc && \
-    find /usr -name "*mongoc*" -type f
+RUN echo "Bibliotecas instaladas:" && \
+    ldconfig -p | grep -E "(mongoc|bson)" && \
+    ls -la /usr/local/lib/libmongoc* /usr/local/lib/libbson*
 
 # Crie um diretório para sua aplicação
 WORKDIR /app
