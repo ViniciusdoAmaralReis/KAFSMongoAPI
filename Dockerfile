@@ -11,13 +11,11 @@ RUN apt-get update && \
     gnupg \
     curl \
     libssl3 \
-    libsasl2-3 \
+    libsasl2-2 \  # Alterado de libsasl2-3 para libsasl2-2
     && wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | gpg --dearmor -o /usr/share/keyrings/mongodb-server-6.0.gpg \
     && echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list \
     && apt-get update \
     && apt-get install -y \
-    mongodb-org-server \
-    mongodb-org-shell \
     libmongoc-1.0-0 \
     libbson-1.0-0 \
     && ldconfig \
