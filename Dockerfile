@@ -37,41 +37,43 @@ COPY KAFSServidorDataSnap .
 # Torne o binário executável
 RUN chmod +x KAFSServidorDataSnap
 
-# Crie a estrutura de diretórios necessária
-RUN mkdir -p /root/Documentos/KAFSServidorDataSnap
+# Crie a estrutura de diretórios EXATA que o sistema espera
+# TPath.GetDocumentsPath + PathDelim + NomeProjeto
+# No Linux, GetDocumentsPath geralmente retorna ~/Documents
+# NomeProjeto = "KAFSServidorDataSnap" (nome do executável sem extensão)
+RUN mkdir -p /root/Documents/KAFSServidorDataSnap
 
 # Crie o arquivo cache.ini com o conteúdo EXATO do exemplo fornecido
-RUN echo "[bW9uZ29kYg$$]" > /root/Documentos/KAFSServidorDataSnap/cache.ini && \
-    echo "bm9tZQ$$=dmluaWNpdXNkb2FtYXJhbHJlaXM$" >> /root/Documentos/KAFSServidorDataSnap/cache.ini && \
-    echo "c2VuaGE$=WUNubGM0T1dxT0lGRE9kTQ$$" >> /root/Documentos/KAFSServidorDataSnap/cache.ini && \
-    echo "c2Vydmlkb3I$=c2Vydmlkb3IwLmFqaGJicngubW9uZ29kYi5uZXQ$" >> /root/Documentos/KAFSServidorDataSnap/cache.ini && \
-    echo "" >> /root/Documentos/KAFSServidorDataSnap/cache.ini && \
-    echo "[ZGF0YXNuYXA$]" >> /root/Documentos/KAFSServidorDataSnap/cache.ini && \
-    echo "cG9ydGE$=ODA4MQ$$" >> /root/Documentos/KAFSServidorDataSnap/cache.ini
+# no caminho exato onde o sistema procura
+RUN echo "[bW9uZ29kYg$$]" > /root/Documents/KAFSServidorDataSnap/cache.ini && \
+    echo "bm9tZQ$$=dmluaWNpdXNkb2FtYXJhbHJlaXM$" >> /root/Documents/KAFSServidorDataSnap/cache.ini && \
+    echo "c2VuaGE$=WUNubGM0T1dxT0lGRE9kTQ$$" >> /root/Documents/KAFSServidorDataSnap/cache.ini && \
+    echo "c2Vydmlkb3I$=c2Vydmlkb3IwLmFqaGJicngubW9uZ29kYi5uZXQ$" >> /root/Documents/KAFSServidorDataSnap/cache.ini && \
+    echo "" >> /root/Documents/KAFSServidorDataSnap/cache.ini && \
+    echo "[ZGF0YXNuYXA$]" >> /root/Documents/KAFSServidorDataSnap/cache.ini && \
+    echo "cG9ydGE$=ODA4MQ$$" >> /root/Documents/KAFSServidorDataSnap/cache.ini
 
-# Verifique o conteúdo do arquivo (para debug)
-RUN echo "Conteúdo do cache.ini:" && \
-    cat /root/Documentos/KAFSServidorDataSnap/cache.ini && \
+# Verifique se o arquivo está no lugar certo
+RUN echo "Verificando estrutura de diretórios:" && \
+    echo "PWD: $(pwd)" && \
+    echo "Conteúdo de /root:" && ls -la /root && \
+    echo "Conteúdo de /root/Documents:" && ls -la /root/Documents && \
+    echo "Conteúdo de /root/Documents/KAFSServidorDataSnap:" && ls -la /root/Documents/KAFSServidorDataSnap && \
+    echo "Conteúdo do cache.ini:" && cat /root/Documents/KAFSServidorDataSnap/cache.ini && \
     echo "----------------------------------------"
 
-# Teste de decodificação (para verificar se está correto)
-RUN apt-get update && apt-get install -y --no-install-recommends openssl && rm -rf /var/lib/apt/lists/*
-RUN echo "Teste de decodificação:" && \
-    echo "Seção mongodb: $(echo 'bW9uZ29kYg==' | sed 's/\$/=/g' | openssl base64 -d)" && \
-    echo "Campo nome: $(echo 'bm9tZQ==' | sed 's/\$/=/g' | openssl base64 -d)" && \
-    echo "Valor nome: $(echo 'dmluaWNpdXNkb2FtYXJhbHJlaXM=' | sed 's/\$/=/g' | openssl base64 -d)" && \
-    echo "Campo senha: $(echo 'c2VuaGE=' | sed 's/\$/=/g' | openssl base64 -d)" && \
-    echo "Valor senha: $(echo 'WUNubGM0T1dxT0lGRE9kTQ==' | sed 's/\$/=/g' | openssl base64 -d)" && \
-    echo "Campo servidor: $(echo 'c2Vydmlkb3I=' | sed 's/\$/=/g' | openssl base64 -d)" && \
-    echo "Valor servidor: $(echo 'c2Vydmlkb3IwLmFqaGJicngubW9uZ29kYi5uZXQ=' | sed 's/\$/=/g' | openssl base64 -d)" && \
-    echo "Seção datasnap: $(echo 'ZGF0YXNuYXA=' | sed 's/\$/=/g' | openssl base64 -d)" && \
-    echo "Campo porta: $(echo 'cG9ydGE=' | sed 's/\$/=/g' | openssl base64 -d)" && \
-    echo "Valor porta: $(echo 'ODA4MQ==' | sed 's/\$/=/g' | openssl base64 -d)" && \
-    echo "----------------------------------------"
-
-# Defina variáveis de ambiente para o caminho de documentos
+# Defina variáveis de ambiente para garantir que GetDocumentsPath funcione corretamente
 ENV HOME=/root
-ENV XDG_DOCUMENTS_DIR=/root/Documentos
+ENV XDG_DOCUMENTS_DIR=/root/Documents
+
+# Também crie cópias em outros locais possíveis por segurança
+RUN mkdir -p /root/Documentos/KAFSServidorDataSnap && \
+    cp /root/Documents/KAFSServidorDataSnap/cache.ini /root/Documentos/KAFSServidorDataSnap/cache.ini
+
+RUN mkdir -p /app/Documents/KAFSServidorDataSnap && \
+    cp /root/Documents/KAFSServidorDataSnap/cache.ini /app/Documents/KAFSServidorDataSnap/cache.ini
+
+RUN cp /root/Documents/KAFSServidorDataSnap/cache.ini /app/cache.ini
 
 # Health check TCP para a porta 8081
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
@@ -80,5 +82,5 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
 # Exponha a porta que seu servidor usa
 EXPOSE 8081
 
-# Comando para executar sua aplicação
-CMD ["./KAFSServidorDataSnap"]
+# Comando para executar sua aplicação com debug
+CMD ["sh", "-c", "echo 'Diretório atual: $(pwd)'; echo 'Conteúdo:'; ls -la; echo 'Procurando cache.ini...'; find / -name 'cache.ini' 2>/dev/null; echo 'Iniciando aplicação...'; ./KAFSServidorDataSnap"]
