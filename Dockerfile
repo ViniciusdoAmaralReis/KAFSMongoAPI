@@ -12,6 +12,7 @@ RUN apt-get update && \
     pkg-config \
     libssl-dev \
     libsasl2-dev \
+    netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
 # Baixa e compila o mongo-c-driver from source
@@ -36,14 +37,17 @@ COPY KAFSServidorDataSnap .
 # Torne o binário executável
 RUN chmod +x KAFSServidorDataSnap
 
-# Crie o arquivo INI EXATAMENTE como fornecido
-RUN echo "[bW9uZ29kYg$$]" > cache.ini && \
-    echo "bm9tZQ$$=dmluaWNpdXNkb2FtYXJhbHJlaXM$" >> cache.ini && \
-    echo "c2VuaGE$=WUNubGM0T1dxT0lGRE9kTQ$$" >> cache.ini && \
-    echo "c2Vydmlkb3I$=c2Vydmlkb3IwLmFqaGJicngubW9uZ29kYi5uZXQ$" >> cache.ini && \
-    echo "" >> cache.ini && \
-    echo "[ZGF0YXNuYXA$]" >> cache.ini && \
-    echo "cG9ydGE$=ODA4MQ$$" >> cache.ini
+# Crie o diretório onde o arquivo INI deve estar
+RUN mkdir -p /documentos/KAFSServidorDataSnap
+
+# Crie o arquivo INI EXATAMENTE como fornecido (usando echo com escaping)
+RUN echo "[bW9uZ29kYg\$\$]" > /documentos/KAFSServidorDataSnap/cache.ini && \
+    echo "bm9tZQ\$\$=dmluaWNpdXNkb2FtYXJhbHJlaXM\$" >> /documentos/KAFSServidorDataSnap/cache.ini && \
+    echo "c2VuaGE\$=WUNubGM0T1dxT0lGRE9kTQ\$\$" >> /documentos/KAFSServidorDataSnap/cache.ini && \
+    echo "c2Vydmlkb3I\$=c2Vydmlkb3IwLmFqaGJicngubW9uZ29kYi5uZXQ\$" >> /documentos/KAFSServidorDataSnap/cache.ini && \
+    echo "" >> /documentos/KAFSServidorDataSnap/cache.ini && \
+    echo "[ZGF0YXNuYXA\$]" >> /documentos/KAFSServidorDataSnap/cache.ini && \
+    echo "cG9ydGE\$=ODA4MQ\$\$" >> /documentos/KAFSServidorDataSnap/cache.ini
 
 # Health check TCP para a porta 8081
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
