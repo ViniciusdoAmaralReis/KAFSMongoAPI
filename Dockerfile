@@ -37,17 +37,41 @@ COPY KAFSServidorDataSnap .
 # Torne o binário executável
 RUN chmod +x KAFSServidorDataSnap
 
-# Crie o diretório onde o arquivo INI deve estar
-RUN mkdir -p /documentos/KAFSServidorDataSnap
+# Crie a estrutura de diretórios necessária
+RUN mkdir -p /root/Documentos/KAFSServidorDataSnap
 
-# Crie o arquivo INI EXATAMENTE como fornecido (usando echo com escaping)
-RUN echo "[bW9uZ29kYg\$\$]" > /documentos/KAFSServidorDataSnap/cache.ini && \
-    echo "bm9tZQ\$\$=dmluaWNpdXNkb2FtYXJhbHJlaXM\$" >> /documentos/KAFSServidorDataSnap/cache.ini && \
-    echo "c2VuaGE\$=WUNubGM0T1dxT0lGRE9kTQ\$\$" >> /documentos/KAFSServidorDataSnap/cache.ini && \
-    echo "c2Vydmlkb3I\$=c2Vydmlkb3IwLmFqaGJicngubW9uZ29kYi5uZXQ\$" >> /documentos/KAFSServidorDataSnap/cache.ini && \
-    echo "" >> /documentos/KAFSServidorDataSnap/cache.ini && \
-    echo "[ZGF0YXNuYXA\$]" >> /documentos/KAFSServidorDataSnap/cache.ini && \
-    echo "cG9ydGE\$=ODA4MQ\$\$" >> /documentos/KAFSServidorDataSnap/cache.ini
+# Crie o arquivo cache.ini com o conteúdo EXATO do exemplo fornecido
+RUN echo "[bW9uZ29kYg$$]" > /root/Documentos/KAFSServidorDataSnap/cache.ini && \
+    echo "bm9tZQ$$=dmluaWNpdXNkb2FtYXJhbHJlaXM$" >> /root/Documentos/KAFSServidorDataSnap/cache.ini && \
+    echo "c2VuaGE$=WUNubGM0T1dxT0lGRE9kTQ$$" >> /root/Documentos/KAFSServidorDataSnap/cache.ini && \
+    echo "c2Vydmlkb3I$=c2Vydmlkb3IwLmFqaGJicngubW9uZ29kYi5uZXQ$" >> /root/Documentos/KAFSServidorDataSnap/cache.ini && \
+    echo "" >> /root/Documentos/KAFSServidorDataSnap/cache.ini && \
+    echo "[ZGF0YXNuYXA$]" >> /root/Documentos/KAFSServidorDataSnap/cache.ini && \
+    echo "cG9ydGE$=ODA4MQ$$" >> /root/Documentos/KAFSServidorDataSnap/cache.ini
+
+# Verifique o conteúdo do arquivo (para debug)
+RUN echo "Conteúdo do cache.ini:" && \
+    cat /root/Documentos/KAFSServidorDataSnap/cache.ini && \
+    echo "----------------------------------------"
+
+# Teste de decodificação (para verificar se está correto)
+RUN apt-get update && apt-get install -y --no-install-recommends openssl && rm -rf /var/lib/apt/lists/*
+RUN echo "Teste de decodificação:" && \
+    echo "Seção mongodb: $(echo 'bW9uZ29kYg==' | sed 's/\$/=/g' | openssl base64 -d)" && \
+    echo "Campo nome: $(echo 'bm9tZQ==' | sed 's/\$/=/g' | openssl base64 -d)" && \
+    echo "Valor nome: $(echo 'dmluaWNpdXNkb2FtYXJhbHJlaXM=' | sed 's/\$/=/g' | openssl base64 -d)" && \
+    echo "Campo senha: $(echo 'c2VuaGE=' | sed 's/\$/=/g' | openssl base64 -d)" && \
+    echo "Valor senha: $(echo 'WUNubGM0T1dxT0lGRE9kTQ==' | sed 's/\$/=/g' | openssl base64 -d)" && \
+    echo "Campo servidor: $(echo 'c2Vydmlkb3I=' | sed 's/\$/=/g' | openssl base64 -d)" && \
+    echo "Valor servidor: $(echo 'c2Vydmlkb3IwLmFqaGJicngubW9uZ29kYi5uZXQ=' | sed 's/\$/=/g' | openssl base64 -d)" && \
+    echo "Seção datasnap: $(echo 'ZGF0YXNuYXA=' | sed 's/\$/=/g' | openssl base64 -d)" && \
+    echo "Campo porta: $(echo 'cG9ydGE=' | sed 's/\$/=/g' | openssl base64 -d)" && \
+    echo "Valor porta: $(echo 'ODA4MQ==' | sed 's/\$/=/g' | openssl base64 -d)" && \
+    echo "----------------------------------------"
+
+# Defina variáveis de ambiente para o caminho de documentos
+ENV HOME=/root
+ENV XDG_DOCUMENTS_DIR=/root/Documentos
 
 # Health check TCP para a porta 8081
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
