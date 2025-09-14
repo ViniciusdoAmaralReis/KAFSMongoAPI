@@ -41,4 +41,4 @@ RUN chmod +x KAFSServidorDataSnap
 EXPOSE 8081
 
 # Comando de execução com parâmetros
-CMD ["/app/KAFSServidorDataSnap", "-p", "8081", "-u", "viniciusdoamaralreis", "-s", "YCnlc4OWqOIFDOdM", "-h", "servidor0.ajhbbrx.mongodb.net"]
+CMD ["/app/KAFSServidorDataSnap", "-p", "8081", "-u", "$MONGO_USER", "-s", "$MONGO_PASSWORD", "-h", "$MONGO_HOST"]
