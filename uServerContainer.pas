@@ -17,7 +17,7 @@ type
     procedure DSServerClassGetClass(DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
   end;
 
-procedure RunDSServer;
+  procedure RunDSServer;
 
 implementation
 
