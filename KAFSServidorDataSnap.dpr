@@ -12,6 +12,7 @@ uses
 
 begin
   try
+    // +[0.2.0] - Consome os parâmetros digitados na chamada do sistema criando o arquivo de configuração
     for var I := 1 to ParamCount do
       if (ParamStr(I) = '-p') and (I < ParamCount) then
         SalvarIni('cache', 'datasnap', 'porta', ParamStr(I + 1))
