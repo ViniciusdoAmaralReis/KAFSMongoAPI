@@ -15,7 +15,7 @@ Oferece endpoints RESTful para operações básicas de banco de dados.
 [![Multiplatform](https://img.shields.io/badge/Multiplatform-Win/Linux-8250DF)]([https://www.embarcadero.com/products/delphi/cross-platform](https://docwiki.embarcadero.com/RADStudio/Athens/en/Developing_Multi-Device_Applications))
 [![Docker](https://img.shields.io/badge/Docker-Container-2496ED?logo=docker)](https://www.docker.com)
 [![License](https://img.shields.io/badge/License-GPLv3-blue)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-0.1.0-gren)](https://github.com/seu-usuario/seu-repo/releases)
+[![Version](https://img.shields.io/badge/Version-0.1.0-gren)]([https://github.com/seu-usuario/seu-repo/releases](https://github.com/ViniciusdoAmaralReis/KAFSServidorDataSnap/releases/tag/0.1.0))
 </div><br>
 
 ## ⚠️ Dependências externas
