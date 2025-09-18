@@ -13,23 +13,42 @@ Oferece endpoints RESTful para operações básicas de banco de dados.
 [![FireDAC](https://img.shields.io/badge/FireDAC-Connector-FF6600)]([https://www.embarcadero.com/products/firedac](https://docwiki.embarcadero.com/RADStudio/Athens/en/FireDAC))
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb)](https://www.mongodb.com/atlas)
 [![Multiplatform](https://img.shields.io/badge/Multiplatform-Win/Linux-8250DF)]([https://www.embarcadero.com/products/delphi/cross-platform](https://docwiki.embarcadero.com/RADStudio/Athens/en/Developing_Multi-Device_Applications))
+[![Docker](https://img.shields.io/badge/Docker-Container-2496ED?logo=docker)](https://www.docker.com)
 [![License](https://img.shields.io/badge/License-GPLv3-blue)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-0.1.0-gren)](https://github.com/seu-usuario/seu-repo/releases)
-</div><br><br>
+</div><br>
 
 ## ⚠️ Dependências externas
-
-Este projeto utiliza as seguintes unidades externas que devem ser adicionadas ao projeto:
 - 🧩 [TKAFSConexaoMongoDBAtlas](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoMongoDBAtlas) 
 - 🧩 [uKAFSFuncoes](https://github.com/ViniciusdoAmaralReis/uKAFSFuncoes) 
 - 🧩 [uKAFSMongoDB](https://github.com/ViniciusdoAmaralReis/uKAFSMongoDB) 
-
-*Componente utilizado para os exemplos de consumo no cliente. Não é necessário para compilar este projeto servidor.
 - *🧩 [TKAFSConexaoDataSnap](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoDataSnap)
+
+*Componente utilizado nos exemplos de consumo no cliente. Não é necessário para compilar este projeto servidor.
 <div></div><br><br>
 
+## 🪟 Executar no Windows
+```bash
+KAFSServidorDataSnap.exe -p porta -u usuario_mongodbatlas -s senha_mongodbatlas -h servidor_mongodbatlas
+```
+ou somente
+```bash
+KAFSServidorDataSnap.exe
+```
+<div></div><br><br>
 
-## ⚡ Inserir dados
+## 🐧 Executar no Linux
+```bash
+chmod +x KAFSServidorDataSnap
+./KAFSServidorDataSnap -p porta -u usuario_mongodbatlas -s senha_mongodbatlas -h servidor_mongodbatlas
+```
+ou somente
+```bash
+chmod +x KAFSServidorDataSnap
+./KAFSServidorDataSnap
+```
+<div></div><br><br>
+
+## ⚡ Método - Inserir dados
 ```pascal
 function TServerMethods.InserirDadosMongoDB(const _banco, _colecao: String; const _dados: TJSONObject): TJSONObject;
 ```
@@ -73,7 +92,7 @@ end;
 <div></div><br><br>
 
 
-## ⚡ Editar dados
+## ⚡ Método - Editar dados
 ```pascal
 function TServerMethods.EditarDadosMongoDB(const _banco, _colecao: String; const _filtros, _atualizacoes: TJSONObject): TJSONObject;
 ```
@@ -124,7 +143,7 @@ end;
 <div></div><br><br>
 
 
-## ⚡ Buscar dados
+## ⚡ Método - Buscar dados
 ```pascal
 function TServerMethods.BuscarDadosMongoDB(const _banco, _colecao: string; const _filtros: TJSONObject): TJSONObject;
 ```
@@ -195,7 +214,7 @@ end;
 <div></div><br><br>
 
 
-## ⚡ Excluir dados
+## ⚡ Método - Excluir dados
 ```pascal
 function TServerMethods.ExcluirDadosMongoDB(const _banco, _colecao: String; const _filtros: TJSONObject): TJSONObject;
 ```
