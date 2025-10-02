@@ -3,39 +3,87 @@ unit uServerMethods;
 interface
 
 uses
-  System.Classes, System.Generics.Collections, System.Json;
+  System.Classes, System.DateUtils, System.JSON, System.SysUtils,
+  Data.DBXCommon;
 
 type
 {$METHODINFO ON}
   TServerMethods = class(TComponent)
 
-    function InserirDadosMongoDB(const _banco, _colecao: String; const _dados: TJSONObject): TJSONObject;
-    function EditarDadosMongoDB(const _banco, _colecao: String; const _filtros, _atualizacoes: TJSONObject): TJSONObject;
-    function BuscarDadosMongoDB(const _banco, _colecao: string; const _filtros: TJSONObject): TJSONObject;
-    function ExcluirDadosMongoDB(const _banco, _colecao: String; const _filtros: TJSONObject): TJSONObject;
+    function Ping: Boolean;
+    function Timer: Int64;
+    procedure InserirDadosMongoDB(const _base, _colecao: String; const _dados: TJSONArray);
+    procedure EditarDadosMongoDB(const _base, _colecao, _filtros: String; const _dados: TJSONArray);
+    function BuscarDadosMongoDB(const _base, _colecao, _filtros, _projecoes: String): TJSONArray;
+    procedure ExcluirDadosMongoDB(const _base, _colecao, _filtros: String);
   end;
 {$METHODINFO OFF}
 
 implementation
 
 uses
-  uKAFSMongoDB;
+  uKAFSMongoDB, uServerContainer;
 
-function TServerMethods.InserirDadosMongoDB(const _banco, _colecao: String; const _dados: TJSONObject): TJSONObject;
+function TServerMethods.Ping: Boolean;
 begin
-  Result := InserirDados(_banco, _colecao, _dados);
+  try
+    Result := True;
+  except
+    on E: Exception do
+      raise TDBXError.Create(0, 'Erro no servidor: ' + E.Message);
+  end;
 end;
-function TServerMethods.EditarDadosMongoDB(const _banco, _colecao: String; const _filtros, _atualizacoes: TJSONObject): TJSONObject;
+function TServerMethods.Timer: Int64;
 begin
-  Result := EditarDados(_banco, _colecao, _filtros, _atualizacoes);
+  try
+    Result := DateTimeToUnix(Now);
+  except
+    on E: Exception do
+      raise TDBXError.Create(0, 'Erro no servidor: ' + E.Message);
+  end;
 end;
-function TServerMethods.BuscarDadosMongoDB(const _banco, _colecao: string; const _filtros: TJSONObject): TJSONObject;
+
+procedure TServerMethods.InserirDadosMongoDB(const _base, _colecao: String; const _dados: TJSONArray);
 begin
-  Result := BuscarDados(_banco, _colecao, _filtros);
+  try
+    InserirDados(_resfriamento, _base, _colecao, _dados);
+  except
+    on E: Exception do
+      raise TDBXError.Create(0, 'Erro no servidor: ' + E.Message);
+  end;
 end;
-function TServerMethods.ExcluirDadosMongoDB(const _banco, _colecao: String; const _filtros: TJSONObject): TJSONObject;
+procedure TServerMethods.EditarDadosMongoDB(const _base, _colecao, _filtros: String; const _dados: TJSONArray);
 begin
-  Result := ExcluirDados(_banco, _colecao, _filtros);
+  try
+    EditarDados(_resfriamento, _base, _colecao, _filtros, _dados);
+  except
+    on E: Exception do
+      raise TDBXError.Create(0, 'Erro no servidor: ' + E.Message);
+  end;
+end;
+function TServerMethods.BuscarDadosMongoDB(const _base, _colecao, _filtros, _projecoes: String): TJSONArray;
+begin
+  try
+    var _temp: TJSONArray := nil;
+    try
+      _temp := BuscarDados(_resfriamento, _base, _colecao, _filtros, _projecoes);
+      Result := _temp.Clone as TJSONArray;
+    finally
+      FreeAndNil(_temp);
+    end;
+  except
+    on E: Exception do
+      raise TDBXError.Create(0, 'Erro no servidor: ' + E.Message);
+  end;
+end;
+procedure TServerMethods.ExcluirDadosMongoDB(const _base, _colecao, _filtros: String);
+begin
+  try
+    ExcluirDados(_resfriamento, _base, _colecao, _filtros);
+  except
+    on E: Exception do
+      raise TDBXError.Create(0, 'Erro no servidor: ' + E.Message);
+  end;
 end;
 
 end.
