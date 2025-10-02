@@ -1,7 +1,7 @@
 <div align="center">
 <img width="223" height="200" alt="Logo" src="https://github.com/user-attachments/assets/3a33800c-24e5-47bd-b086-6851796932e6" /></div><p>
 
-# <div align="center"><strong>KAFS Mondo API</strong></div> 
+# <div align="center"><strong>KAFS Mongo API</strong></div> 
 
 <div align="center">
 Servidor DataSnap integrado com MongoDB Atlas para persistência de dados.<br>
