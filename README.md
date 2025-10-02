@@ -29,30 +29,30 @@ Oferece endpoints RESTful para operações básicas de banco de dados.
 
 ## 🪟 Executar no Windows
 ```bash
-kafs-mongodb-api.exe -p porta -u usuario_mongodbatlas -s senha_mongodbatlas -h servidor_mongodbatlas -c resfriamento_em_milisegundos_mongodbatlas 
+KAFSMongoDBAPI.exe -p porta -u usuario_mongodbatlas -s senha_mongodbatlas -h servidor_mongodbatlas -c resfriamento_em_milisegundos_mongodbatlas 
 ```
 ou somente
 ```bash
-kafs-mongodb-api.exe
+KAFSMongoDBAPI.exe
 ```
 <div></div><br><br>
 
 
 ## 🐧 Executar no Linux
 ```bash
-chmod +x kafs-mongodb-api
-./kafs-mongodb-api -p porta -u usuario_mongodbatlas -s senha_mongodbatlas -h servidor_mongodbatlas -c resfriamento_em_milisegundos_mongodbatlas
+chmod +x KAFSMongoDBAPI
+./KAFSMongoDBAPI -p porta -u usuario_mongodbatlas -s senha_mongodbatlas -h servidor_mongodbatlas -c resfriamento_em_milisegundos_mongodbatlas
 ```
 ou somente
 ```bash
-chmod +x kafs-mongodb-api
-./kafs-mongodb-api
+chmod +x KAFSMongoDBAPI
+./KAFSMongoDBAPI
 ```
 *(-c "tempo_em_milisegundos") Todas as requisições respeitarão uma fila e um tempo determinado antes de serem executadas. Isso evita estouro de condições de planos do MongoDB Atlas. 
 
 *(-c 0) Caso determine como ZERO, não será montada fila e todas as requisições serão executadas livremente em tempo real.
 
-*o sistema também pode ser executado sem determinar nenhuma configuração, neste caso as configurações serão requisitadas internamente na primeira execução.
+*O sistema também pode ser executado sem determinar nenhuma configuração, neste caso as configurações serão requisitadas internamente na primeira execução.
 <div></div><br><br>
 
 
