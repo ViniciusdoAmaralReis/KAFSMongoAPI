@@ -3,7 +3,7 @@ unit uServerContainer;
 interface
 
 uses
-  System.Classes, System.SysUtils, System.Threading,
+  System.Classes, System.SysUtils,
   Datasnap.DSAuth, Datasnap.DSCommonServer, Datasnap.DSServer,
   Datasnap.DSTCPServerTransport,
   IPPeerAPI, IPPeerServer;
@@ -19,6 +19,9 @@ type
 
   procedure RunDSServer;
 
+var
+  _resfriamento: Integer = 0;
+
 implementation
 
 {%CLASSGROUP 'System.Classes.TPersistent'}
@@ -26,24 +29,20 @@ implementation
 {$R *.dfm}
 
 uses
-  uKAFSFuncoes,
-  uKAFSConexaoMongoDBAtlas,
-  uServerMethods;
+  uKAFSConexaoMongoDBAtlas, uKAFSFuncoes, uServerMethods;
 
 procedure TServerContainer.DSServerClassGetClass(DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
 begin
   PersistentClass := uServerMethods.TServerMethods;
 end;
-
+//------------------------------------------------------------------------------
 function TestarPorta(const _porta: Integer): Boolean;
 begin
   Result := True;
 
   try
-
     var _testar := PeerFactory.CreatePeer('', IIPTestServer) as IIPTestServer;
     _testar.TestOpenPort(_porta, nil);
-
   except
     Result := False;
   end;
@@ -55,31 +54,32 @@ begin
   else
     Result := 0;
 end;
-
+//------------------------------------------------------------------------------
 procedure ValidarMongoDBAtlas;
 begin
   try
-
     Writeln('MONGODB ATLAS');
     Writeln('   - Testando conexão');
 
     var _mongodb := TKAFSConexaoMongoDBAtlas.Create(nil);
     try
-
       Writeln('   - Conexão ok');
-      Writeln('----------------------------------------');
-
     finally
       FreeAndNil(_mongodb);
     end;
 
+    var _testar := LerIni('cache', 'mongodb', 'resfriamento');
+    if (_testar = '') or
+       (_testar = '0') then
+      Writeln('   - Resfriamento desativado')
+    else
+      Writeln('   - Resfriamento ' + _testar + 'ms');
   except
     on E: Exception do
-    begin
       Writeln('Erro: ' + E.Message);
-      Writeln('----------------------------------------');
-    end;
   end;
+
+  Writeln('----------------------------------------');
 end;
 function ValidarPorta: Integer;
 begin
@@ -92,7 +92,6 @@ begin
   var _ok := False;
 
   repeat
-
     // Verifica se é um valor inteiro
     if not TryStrToInt(_porta, _valor) then
     begin
@@ -127,9 +126,9 @@ begin
     end;
 
     _ok := True;
+
     Writeln('   - Porta ok');
     Writeln('----------------------------------------');
-
   until _ok;
 
   Result := StrToInt(_porta);
@@ -208,16 +207,26 @@ begin
 end;
 procedure Status(const _servidor: TServerContainer);
 begin
-  Writeln('   - Online:       ' + _servidor.DSServer.Started.ToString(TUseBoolStrs.True));
-  Writeln('   - IP privado:   ' + uKAFSFuncoes.IPPrivado);
-  Writeln('   - IP público:   ' + uKAFSFuncoes.IPPublico);
-  Writeln('   - Porta:        ' + _servidor.DSTCPServerTransport.Port.ToString);
+  Writeln('   Online:       ' + _servidor.DSServer.Started.ToString(TUseBoolStrs.True));
+  Writeln('   IP privado:   ' + uKAFSFuncoes.IPPrivado);
+  Writeln('   IP público:   ' + uKAFSFuncoes.IPPublico);
+  Writeln('   Porta:        ' + _servidor.DSTCPServerTransport.Port.ToString);
+  Writeln('----------------------------------------');
+  Write('>');
+end;
+procedure Resfriamento;
+begin
+  Write('   - Resfriamento em milisegundos (0: Para acesso livre) >');
+  Readln(_resfriamento);
 
+  SalvarIni('cache', 'mongodb', 'resfriamento', IntToStr(_resfriamento));
+
+  Writeln('   - Resfriamento definido');
   Writeln('----------------------------------------');
   Write('>');
 end;
 
-procedure StatusIniciais(const _porta: Integer);
+procedure StatusDataSnap(const _porta: Integer);
 begin
   Writeln('SERVIDOR ONLINE');
   Writeln('   IP privado:   ' + uKAFSFuncoes.IPPrivado);
@@ -232,6 +241,7 @@ begin
   Writeln('   - "stop"       parar o servidor');
   Writeln('   - "set port"   mudar a porta padrão');
   Writeln('   - "status"     vizualizar status do servidor');
+  Writeln('   - "cooldown"   cria fila e resfriamento de acesso ao MongoDB Atlas');
   Writeln('   - "test mongo" testar conexão com MongoDB Atlas');
   Writeln('   - "help"       vizualizar comandos');
   Writeln('   - "exit"       fechar o aplicativo');
@@ -245,7 +255,6 @@ begin
 
   var _modulo := TServerContainer.Create(nil);
   try
-
     // Associa a porta escolhida
     _modulo.DSTCPServerTransport.Port := ValidarPorta;
 
@@ -264,17 +273,16 @@ begin
     SalvarIni('cache', 'datasnap', 'porta', IntToStr(_modulo.DSTCPServerTransport.Port));
 
     // Exibe status
-    StatusIniciais(_modulo.DSTCPServerTransport.Port);
+    StatusDataSnap(_modulo.DSTCPServerTransport.Port);
 
     // Exibe lista de comandos válidos
     Comandos;
 
     var _resposta: String;
 
-    // Loop mantendo servido no aquardo
+    // Loop mantendo servido no aguardo
     while True do
     begin
-
       Readln(_resposta);
       _resposta := LowerCase(_resposta);
 
@@ -287,6 +295,8 @@ begin
         Stop(_modulo)
       else if _resposta.StartsWith('set port') then
         DefinirPorta(_modulo)
+      else if _resposta.StartsWith('cooldown') then
+        Resfriamento
       else if _resposta.StartsWith('test mongo') then
       begin
         ValidarMongoDBAtlas;
@@ -299,7 +309,7 @@ begin
         if _modulo.DSServer.Started then
           Stop(_modulo);
 
-        break
+        Break
       end
       else
       begin
@@ -307,9 +317,7 @@ begin
         Writeln(' ');
         Write('>');
       end;
-
     end;
-
   finally
     FreeAndNil(_modulo);
   end;
