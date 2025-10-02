@@ -1,7 +1,7 @@
 <div align="center">
 <img width="223" height="200" alt="Logo" src="https://github.com/user-attachments/assets/3a33800c-24e5-47bd-b086-6851796932e6" /></div><p>
 
-# <div align="center"><strong>KAFSServidorDataSnap</strong></div> 
+# <div align="center"><strong>KAFS MondoDB API</strong></div> 
 
 <div align="center">
 Servidor DataSnap integrado com MongoDB Atlas para persistência de dados.<br>
@@ -26,234 +26,199 @@ Oferece endpoints RESTful para operações básicas de banco de dados.
 *Componente utilizado nos exemplos de consumo no cliente. Não é necessário para compilar este projeto servidor.
 <div></div><br><br>
 
+
 ## 🪟 Executar no Windows
 ```bash
-KAFSServidorDataSnap.exe -p porta -u usuario_mongodbatlas -s senha_mongodbatlas -h servidor_mongodbatlas
+KAFSMongoDBAPI.exe -p porta -u usuario_mongodbatlas -s senha_mongodbatlas -h servidor_mongodbatlas -c resfriamento_em_milisegundos_mongodbatlas 
 ```
 ou somente
 ```bash
-KAFSServidorDataSnap.exe
+KAFSMongoDBAPI.exe
 ```
 <div></div><br><br>
+
 
 ## 🐧 Executar no Linux
 ```bash
-chmod +x KAFSServidorDataSnap
-./KAFSServidorDataSnap -p porta -u usuario_mongodbatlas -s senha_mongodbatlas -h servidor_mongodbatlas
+chmod +x KAFSMongoDBAPI
+./KAFSMongoDBAPI -p porta -u usuario_mongodbatlas -s senha_mongodbatlas -h servidor_mongodbatlas -c resfriamento_em_milisegundos_mongodbatlas
 ```
 ou somente
 ```bash
-chmod +x KAFSServidorDataSnap
-./KAFSServidorDataSnap
+chmod +x KAFSMongoDBAPI
+./KAFSMongoDBAPI
+```
+*(-c "tempo_em_milisegundos") Todas as requisições respeitarão uma fila e um tempo determinado antes de serem executadas. Isso evita estouro de condições de planos do MongoDB Atlas. 
+
+*(-c 0) Caso determine como ZERO, não será montada fila e todas as requisições serão executadas livremente em tempo real.
+
+*O sistema também pode ser executado sem determinar nenhuma configuração, neste caso as configurações serão requisitadas internamente na primeira execução.
+<div></div><br><br>
+
+
+## ⚡ Método - Ping
+```pascal
+function TServerMethods.Ping: Boolean;
+```
+🏛️ Exemplo de consumo no cliente:
+```pascal
+var ServidorAtivo := ServerMethods.Ping;
+if ServidorAtivo then
+  ShowMessage('Servidor respondendo corretamente')
+else
+  ShowMessage('Servidor indisponível');
 ```
 <div></div><br><br>
 
+
+## ⚡ Método - Timer
+```pascal
+function TServerMethods.Timer: Int64;
+```
+🏛️ Exemplo de consumo no cliente:
+```pascal
+var TimestampServidor := ServerMethods.Timer;
+ShowMessage('Timestamp do servidor: ' + IntToStr(TimestampServidor));
+```
+<div></div><br><br>
+
+
 ## ⚡ Método - Inserir dados
 ```pascal
-function TServerMethods.InserirDadosMongoDB(const _banco, _colecao: String; const _dados: TJSONObject): TJSONObject;
+procedure TServerMethods.InserirDadosMongoDB(const _base, _colecao: String; const _dados: TJSONArray);
 ```
-🏛️ Exemplo de consumo:
+🏛️ Exemplo de consumo no cliente:
 ```pascal
-var _conexao := TKAFSConexaoDataSnap.Create(nil);
-var _metodo := TServerMethodsClient.Create(_conexao.DBXConnection);
-var _dados := TJSONObject.Create;
-var _resultado := TJSONObject.Create;
+var _dadosinserir := TJSONArray.Create;
+var _novousuario: TJSONObject;
 try
-  // Preparar dados para inserção
-  with _dados do
-  begin
-    AddPair('nome', TJSONString.Create('João'));
-    AddPair('email', TJSONString.Create('joao@email.com'));
-    AddPair('nivel', TJSONNumber.Create(1));
-  end;
+  // Primeiro documento
+  _novousuario := TJSONObject.Create;
+  _novousuario.AddPair('nome', 'João Silva');
+  _novousuario.AddPair('email', 'joao@empresa.com');
+  _novousuario.AddPair('data_nascimento', TJSONNumber.Create(831456000)); // Unix: 01/05/1996
+  _novousuario.AddPair('departamento', 'TI');
+  _novousuario.AddPair('salario', TJSONNumber.Create(4500.00));
+  _novousuario.AddPair('ativo', TJSONBool.Create(True));
+  _dadosinserir.AddElement(_novousuario);
 
-  // Executar inserção
-  _resultado := _metodo.InserirDadosMongoDB('meu_banco', 'minha_coleção', _dados);
+  // Segundo documento
+  _novousuario := TJSONObject.Create;
+  _novousuario.AddPair('nome', 'Maria Santos');
+  _novousuario.AddPair('email', 'maria@empresa.com');
+  _novousuario.AddPair('data_nascimento', TJSONNumber.Create(713808000)); // Unix: 15/08/1992
+  _novousuario.AddPair('departamento', 'TI');
+  _novousuario.AddPair('salario', TJSONNumber.Create(5200.00));
+  _novousuario.AddPair('ativo', TJSONBool.Create(True));
+  _dadosinserir.AddElement(_novousuario);
 
-  // Verificar resultado
-  if not _resultado.GetValue<Boolean>('sucesso') then
-    raise Exception.Create(_resultado.GetValue<string>('erro'));
+  // Adicione quantos documentos forem necessários...
 
-  ShowMessage('Usuário inserido com sucesso!');
+  // Executa inserção
+  ServerMethods.InserirDadosMongoDB('nome_base', 'nome_coleção', _dadosinserir);
+  ShowMessage('Dados inseridos com sucesso!');
 finally
-  FreeAndNil(_resultado);
-  FreeAndNil(_dados);
-  FreeAndNil(_metodo);
-  FreeAndNil(_conexao);
+  FreeAndNil(_dadosinserir);
 end;
-```
-📜 Respostas:
-```json
-{"sucesso": true}
-```
-```json
-{"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
 <div></div><br><br>
 
 
 ## ⚡ Método - Editar dados
 ```pascal
-function TServerMethods.EditarDadosMongoDB(const _banco, _colecao: String; const _filtros, _atualizacoes: TJSONObject): TJSONObject;
+procedure TServerMethods.EditarDadosMongoDB(const _base, _colecao, _filtros: String; const _dados: TJSONArray);
 ```
-🏛️ Exemplo de consumo:
+🏛️ Exemplo de consumo no cliente:
 ```pascal
-var _conexao := TKAFSConexaoDataSnap.Create(nil);
-var _metodo := TServerMethodsClient.Create(_conexao.DBXConnection);
-var _filtros := TJSONObject.Create;
-var _atualizacoes := TJSONObject.Create;
-var _resultado := TJSONObject.Create;
+var _filtros := '{"$and": [{"departamento": "TI"}, {"data_nascimento": {"$lte": 788918400}}]}'; // Nascidos antes de 1995
+var _dadosatualizar := TJSONArray.Create;
+var _camposatualizar: TJSONObject;
 try
-  // Preparar filtros para edição
-  with _filtros do
-  begin
-    AddPair('email', TJSONString.Create('joao@email.com'));
-  end;
+  _camposAtualizar := TJSONObject.Create;
+  _camposAtualizar.AddPair('salario', TJSONNumber.Create(5500.00));
+  _camposAtualizar.AddPair('nivel', 'Sênior');
+  _camposAtualizar.AddPair('ultima_promocao', FormatDateTime('yyyy-mm-dd', Now));
+  _dadosatualizar.AddElement(_camposatualizar);
 
-  // Preparar dados para atualização
-  with _atualizacoes do
-  begin
-    AddPair('nivel', TJSONNumber.Create(2));
-    AddPair('ultima_atualizacao', TJSONString.Create(FormatDateTime('yyyy-mm-dd hh:nn:ss', Now)));
-  end;
+  // Adicione quantos documentos forem necessários...
 
-  // Executar edição
-  _resultado := _metodo.EditarDadosMongoDB('meu_banco', 'minha_coleção', _filtros, _atualizacoes);
-
-  // Verificar resultado
-  if not _resultado.GetValue<Boolean>('sucesso') then
-    raise Exception.Create(_resultado.GetValue<string>('erro'));
-
-  ShowMessage('Usuário atualizado com sucesso!');
+  // Executa edição
+  ServerMethods.EditarDadosMongoDB('nome_base', 'nome_coleção', _filtros, _dadosatualizar);
+  ShowMessage('Dados editados com sucesso!');
 finally
-  FreeAndNil(_resultado);
-  FreeAndNil(_atualizacoes);
-  FreeAndNil(_filtros);
-  FreeAndNil(_metodo);
-  FreeAndNil(_conexao);
+  FreeAndNil(_dadosatualizar);
 end;
-```
-📜 Respostas:
-```json
-{"sucesso": true}
-```
-```json
-{"sucesso": false, "erro": "Mensagem do erro aqui"}
 ```
 <div></div><br><br>
 
 
 ## ⚡ Método - Buscar dados
 ```pascal
-function TServerMethods.BuscarDadosMongoDB(const _banco, _colecao: string; const _filtros: TJSONObject): TJSONObject;
+function TServerMethods.BuscarDadosMongoDB(const _base, _colecao, _filtros, _projecoes: String): TJSONArray;
 ```
-🏛️ Exemplo de consumo:
+🏛️ Exemplo de consumo no cliente:
 ```pascal
-var _conexao := TKAFSConexaoDataSnap.Create(nil);
-var _metodo := TServerMethodsClient.Create(_conexao.DBXConnection);
-var _filtros := TJSONObject.Create;
-var _resultado := TJSONObject.Create;
+var _resultados: TJSONArray;
+var _filtros := '{"departamento": "TI"}';
+var _projecoes := '{"nome": 1, "email": 1, "data_nascimento": 1, "salario": 1, "nivel": 1, "_id": 0}';
+var _dadosusuario: TJSONObject;
+var _dataNasc: TDateTime;
 try
-  // Preparar filtro para busca
-  _filtros := TJSONObject.Create;
-  with _filtros do
+  // Executa busca
+  var _resultados := ServerMethods.BuscarDadosMongoDB('nome_base', 'nome_coleção', _filtros, _projecoes);
+    
+  // Varre o resultado
+  for var I := 0 to _resultados.Count - 1 do
   begin
-    AddPair('email', TJSONString.Create('joao@email.com'));
+    _dadosusuario := _resultados.Items[I] as TJSONObject;
+      
+    ShowMessage(Format('%s (%s) - Nascimento: %s - Salário: R$ %.2f - Nível: %s', 
+      [_dadosusuario.GetValue('nome').Value,
+       _dadosusuario.GetValue('email').Value,
+       FormatDateTime('dd/mm/yyyy', UnixToDateTime(_dadosusuario.GetValue('data_nascimento').Value.ToInteger)),
+       _dadosusuario.GetValue('salario').Value.ToDouble,
+       _dadosusuario.GetValue('nivel', 'Não definido')]));
   end;
-
-  // Executar busca
-  _resultado := _metodo.BuscarDadosMongoDB('meu_banco', 'minha_coleção', _filtros);
-
-  // Verificar resultado
-  if not _resultado.GetValue<Boolean>('sucesso') then
-    raise Exception.Create(_resultado.GetValue<string>('erro'));
-
-  // Processar resultados
-  var _quantidade := _resultado.GetValue<Integer>('quantidade');
-  var _usuarios := _resultado.GetValue<TJSONArray>('resultados');
-
-  ShowMessage(Format('%d usuário(s) encontrado(s)', [_quantidade]));
+    
+  ShowMessage(Format('Encontrados %d funcionários de TI', [_resultados.Count]));
 finally
-  FreeAndNil(_resultado);
-  FreeAndNil(_filtros);
-  FreeAndNil(_metodo);
-  FreeAndNil(_conexao);
+  FreeAndNil(_resultados);
 end;
 ```
 📜 Respostas:
 ```json
-{
-  "sucesso": true,
-  "quantidade": 2,
-  "resultados": [
-    {
-      "_id": "65a1b2c3d4e5f67890123456",
-      "nome": "João",
-      "email": "joao@email.com",
-      "nivel": 1
-    },
-    {
-      "_id": "65a1b2c3d4e5f67890123457",
-      "nome": "Maria",
-      "email": "maria@email.com",
-      "nivel": 2
-    }
-  ]
-}
-```
-```json
-{
-  "sucesso": true,
-  "quantidade": 0,
-  "resultados": []
-}
-```
-```json
-{"sucesso": false, "erro": "Mensagem do erro aqui"}
+[
+  {
+    "nome": "João Silva",
+    "email": "joao@empresa.com",
+    "data_nascimento": 831456000,
+    "salario": 4500.00
+  },
+  {
+    "nome": "Maria Santos",
+    "email": "maria@empresa.com", 
+    "data_nascimento": 713808000,
+    "salario": 5500.00,
+    "nivel": "Sênior"
+  }
+]
 ```
 <div></div><br><br>
 
 
 ## ⚡ Método - Excluir dados
 ```pascal
-function TServerMethods.ExcluirDadosMongoDB(const _banco, _colecao: String; const _filtros: TJSONObject): TJSONObject;
+procedure TServerMethods.ExcluirDadosMongoDB(const _base, _colecao, _filtros: String);
 ```
-🏛️ Exemplo de consumo:
+🏛️ Exemplo de consumo no cliente:
 ```pascal
-var _conexao := TKAFSConexaoDataSnap.Create(nil);
-var _metodo := TServerMethodsClient.Create(_conexao.DBXConnection);
-var _filtros := TJSONObject.Create;
-var _resultado := TJSONObject.Create;
-try
-  // Preparar filtros para exclusão
-  with _filtros do
-  begin
-    AddPair('email', TJSONString.Create('joao@email.com'));
-  end;
-
-  // Executar exclusão
-  _resultado := _metodo.ExcluirDadosMongoDB('meu_banco', 'minha_coleção', _filtros);
-
-  // Verificar resultado
-  if not _resultado.GetValue<Boolean>('sucesso') then
-    raise Exception.Create(_resultado.GetValue<string>('erro'));
-
-  ShowMessage('Usuário excluído com sucesso!');
-finally
-  FreeAndNil(_resultado);
-  FreeAndNil(_filtros);
-  FreeAndNil(_metodo);
-  FreeAndNil(_conexao);
-end;
+// Excluir usuários inativos OU com salário muito baixo
+var _filtros := '{"$or": [{"ativo": false}, {"salario": {"$lt": 2000}}]}';
+ServerMethods.ExcluirDadosMongoDB('nome_base', 'nome_coleção', _filtros);
 ```
-📜 Respostas:
-```json
-{"sucesso": true}
-```
-```json
-{"sucesso": false, "erro": "Mensagem do erro aqui"}
-```
+*A exclusão é PERMANENTE. Sempre teste os filtros com BuscarDados antes de executar ExcluirDados!
 <div></div><br><br>
+
 
 ---
 **Nota**: Requer configuração prévia do MongoDB Atlas e das credenciais apropriadas para funcionamento completo. Certifique-se de ter todas as unidades externas baixadas e configuradas corretamente no projeto.
