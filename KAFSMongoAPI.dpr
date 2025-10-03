@@ -6,9 +6,9 @@ uses
   System.SysUtils,
   uServerMethods in 'uServerMethods.pas',
   uServerContainer in 'uServerContainer.pas' {ServerContainer: TDataModule},
-  uKAFSFuncoes in '..\uKAFSFuncoes\uKAFSFuncoes.pas',
-  uKAFSMongoDB in '..\uKAFSMongoDB\uKAFSMongoDB.pas',
-  uKAFSConexaoMongoDBAtlas in '..\TKAFSConexaoMongoDBAtlas\uKAFSConexaoMongoDBAtlas.pas';
+  uKAFSConexaoMongo in '..\TKAFSConexaoMongo\uKAFSConexaoMongo.pas',
+  uKAFSMongo in '..\uKAFSMongo\uKAFSMongo.pas',
+  uKAFSFuncoes in '..\uKAFSFuncoes\uKAFSFuncoes.pas';
 
 begin
   try
