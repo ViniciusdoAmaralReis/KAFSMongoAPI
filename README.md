@@ -20,7 +20,7 @@ Oferece endpoints RESTful para operações básicas de banco de dados.
 ## ⚠️ Dependências externas
 - [TKAFSConexaoMongo](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoMongo) 
 - [uKAFSFuncoes](https://github.com/ViniciusdoAmaralReis/uKAFSFuncoes) 
-- [uKAFSMongoDB](https://github.com/ViniciusdoAmaralReis/uKAFSMongoDB) 
+- [uKAFSMongo](https://github.com/ViniciusdoAmaralReis/uKAFSMongo) 
 - *[TKAFSConexaoDataSnap](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoDataSnap)
 
 *Componente utilizado nos exemplos de consumo no cliente. Não é necessário para compilar este projeto servidor.
@@ -185,7 +185,7 @@ finally
   FreeAndNil(_resultados);
 end;
 ```
-📜 Respostas:
+📜 Exemplo de resposta:
 ```json
 [
   {
@@ -221,4 +221,4 @@ ServerMethods.ExcluirDadosMongoDB('nome_base', 'nome_coleção', _filtros);
 
 
 ---
-**Nota**: Requer configuração prévia do MongoDB Atlas e das credenciais apropriadas para funcionamento completo. Certifique-se de ter todas as unidades externas baixadas e configuradas corretamente no projeto.
+**Nota**: Requer configuração prévia do MongoDB Atlas através do componente [TKAFSConexaoMongo](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoMongo) ou da configuração manual de um FDConnection e das credenciais apropriadas para funcionamento completo. Todos os filtros e projeções seguem o padrão do MongoDB.  Certifique-se de ter todas as unidades externas baixadas e configuradas corretamente no projeto.
