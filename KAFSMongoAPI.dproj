@@ -5,10 +5,11 @@
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Linux64</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>131</TargetedPlatforms>
         <AppType>Console</AppType>
         <MainSource>KAFSMongoAPI.dpr</MainSource>
+        <ProjectName Condition="'$(ProjectName)'==''">KAFSMongoAPI</ProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -137,9 +138,9 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="..\TKAFSConexaoMongo\uKAFSConexaoMongo.pas"/>
+        <DCCReference Include="..\uKAFSMongo\uKAFSMongo.pas"/>
         <DCCReference Include="..\uKAFSFuncoes\uKAFSFuncoes.pas"/>
-        <DCCReference Include="..\uKAFSMongoDB\uKAFSMongoDB.pas"/>
-        <DCCReference Include="..\TKAFSConexaoMongoDBAtlas\uKAFSConexaoMongoDBAtlas.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
