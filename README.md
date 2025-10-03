@@ -12,7 +12,7 @@ Oferece endpoints RESTful para operações básicas de banco de dados.
 [![DataSnap](https://img.shields.io/badge/DataSnap-Server-007ACC)]([https://www.embarcadero.com/products/datasnap](https://docwiki.embarcadero.com/RADStudio/Athens/en/Developing_DataSnap_Applications))
 [![FireDAC](https://img.shields.io/badge/FireDAC-Connector-FF6600)]([https://www.embarcadero.com/products/firedac](https://docwiki.embarcadero.com/RADStudio/Athens/en/FireDAC))
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb)](https://www.mongodb.com/atlas)
-[![Multiplatform](https://img.shields.io/badge/Multiplatform-Win/Linux-8250DF)]([https://www.embarcadero.com/products/delphi/cross-platform](https://docwiki.embarcadero.com/RADStudio/Athens/en/Developing_Multi-Device_Applications))
+[![Multiplatform](https://img.shields.io/badge/Multiplatform-Windows/Linux-8250DF)]([https://www.embarcadero.com/products/delphi/cross-platform](https://docwiki.embarcadero.com/RADStudio/Athens/en/Developing_Multi-Device_Applications))
 [![Docker](https://img.shields.io/badge/Docker-Container-2496ED?logo=docker)](https://www.docker.com)
 [![License](https://img.shields.io/badge/License-GPLv3-blue)](LICENSE)
 </div><br>
