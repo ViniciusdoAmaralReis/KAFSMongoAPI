@@ -29,7 +29,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uKAFSConexaoMongoDBAtlas, uKAFSFuncoes, uServerMethods;
+  uKAFSConexaoMongo, uKAFSFuncoes, uServerMethods;
 
 procedure TServerContainer.DSServerClassGetClass(DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
 begin
@@ -61,7 +61,7 @@ begin
     Writeln('MONGODB ATLAS');
     Writeln('   - Testando conexão');
 
-    var _mongodb := TKAFSConexaoMongoDBAtlas.Create(nil);
+    var _mongodb := TKAFSConexaoMongo.Create(nil);
     try
       Writeln('   - Conexão ok');
     finally
@@ -251,6 +251,9 @@ end;
 
 procedure RunDSServer;
 begin
+  Writeln(NomeProjeto);
+  Writeln('----------------------------------------');
+
   ValidarMongoDBAtlas;
 
   var _modulo := TServerContainer.Create(nil);
