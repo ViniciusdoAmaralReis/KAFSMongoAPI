@@ -18,10 +18,10 @@ Oferece endpoints RESTful para operações básicas de banco de dados.
 </div><br>
 
 ## ⚠️ Dependências externas
-- 🧩 [TKAFSConexaoMongoDBAtlas](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoMongoDBAtlas) 
-- 🧩 [uKAFSFuncoes](https://github.com/ViniciusdoAmaralReis/uKAFSFuncoes) 
-- 🧩 [uKAFSMongoDB](https://github.com/ViniciusdoAmaralReis/uKAFSMongoDB) 
-- *🧩 [TKAFSConexaoDataSnap](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoDataSnap)
+- [TKAFSConexaoMongo](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoMongo) 
+- [uKAFSFuncoes](https://github.com/ViniciusdoAmaralReis/uKAFSFuncoes) 
+- [uKAFSMongoDB](https://github.com/ViniciusdoAmaralReis/uKAFSMongoDB) 
+- *[TKAFSConexaoDataSnap](https://github.com/ViniciusdoAmaralReis/TKAFSConexaoDataSnap)
 
 *Componente utilizado nos exemplos de consumo no cliente. Não é necessário para compilar este projeto servidor.
 <div></div><br><br>
