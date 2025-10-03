@@ -22,7 +22,7 @@ type
 implementation
 
 uses
-  uKAFSMongoDB, uServerContainer;
+  uKAFSMongo, uServerContainer;
 
 function TServerMethods.Ping: Boolean;
 begin
